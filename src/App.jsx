@@ -9,7 +9,6 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentView, setCurrentView] = useState("list"); // Controla qué pantalla vemos
 
-  return (
     <div className="min-h-screen bg-[#030503] text-[#EAFBE9]">
       {!isAuthenticated ? (
         // Si no está registrado, muestra registro
