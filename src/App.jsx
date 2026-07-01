@@ -5,16 +5,21 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#030503] font-body text-[#EAFBE9]">
-      {/* Si no está autenticado, mostramos la pantalla de registro */}
+    export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentView, setCurrentView] = useState("list"); // Controla qué pantalla vemos
+
+  return (
+    <div className="min-h-screen bg-[#030503] text-[#EAFBE9]">
       {!isAuthenticated ? (
+        // Si no está registrado, muestra registro
         <RegistrationScreen onComplete={() => setIsAuthenticated(true)} />
       ) : (
-        <div className="flex items-center justify-center h-screen">
-          <h1 className="text-2xl font-display uppercase tracking-widest text-[#39FF6A]">
-            Bienvenido a Kinbet
-          </h1>
-        </div>
+        // Si ya está registrado, muestra la lista de torneos
+        <TournamentList 
+          tournaments={MOCK_TOURNAMENTS} 
+          onOpen={(id) => console.log("Abriendo torneo:", id)} 
+        />
       )}
     </div>
   );
