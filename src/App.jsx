@@ -3,8 +3,6 @@ import LoginForm from "./components/LoginForm"; // <--- Añade esta línea aquí
 /* ---------------------------------------------------------
    DATA HELPERS
 --------------------------------------------------------- */
-import React, { useState, useEffect } from "react";
-import LoginForm from "./components/LoginForm";
 import {
   Trophy, Users, Plus, User, ChevronLeft, CreditCard, Wallet,
   CheckCircle2, Clock, ShieldCheck, X, AlertCircle, Lock,
