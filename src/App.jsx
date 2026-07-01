@@ -1095,11 +1095,7 @@ export default function App() {
     content = <CreateScreen />;
   } else if (tab === "profile") {
     content = <ProfileScreen />;
-  }
-  }
-
   const showBottomNav = isAuthenticated && !stack;
-
   return (
     <div className="w-full flex items-center justify-center py-6 bg-[#030503]">
       <style>{FONT_STYLE}</style>
