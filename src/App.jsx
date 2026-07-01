@@ -354,7 +354,6 @@ export default function App() {
     })();
     return () => { cancelled = true; };
   }, []);
-
   async function persistTournaments(next) {
     setTournaments(next);
     try {
@@ -363,7 +362,6 @@ export default function App() {
       showToast("No se pudo guardar. Comprueba tu conexión.");
     }
   }
-
   async function persistProfile(next) {
     setProfile(next);
     try {
@@ -372,20 +370,17 @@ export default function App() {
       showToast("No se pudo guardar. Comprueba tu conexión.");
     }
   }
-
   async function resetData() {
     await persistTournaments(INITIAL_TOURNAMENTS);
     await persistProfile(DEFAULT_PROFILE);
     showToast("Datos restablecidos");
   }
-
   const selected = stack ? tournaments.find((t) => t.id === stack.id) : null;
 
   function showToast(msg) {
     setToast(msg);
     setTimeout(() => setToast(null), 2200);
   }
-
   function openTournament(id) { setStack({ screen: "detail", id }); }
   function goBack() {
     if (stack?.screen === "payment") setStack({ screen: "detail", id: stack.id });
@@ -411,7 +406,6 @@ export default function App() {
     setScoreInputs({ a: "", b: "" });
     showToast("Resultado enviado. Esperando confirmación del rival.");
   }
-
   function createTournament() {
     if (!form.name.trim()) { showToast("Ponle un nombre al torneo"); return; }
     const feeEuro = Number(form.feeEuro) || 0;
@@ -441,7 +435,6 @@ export default function App() {
     setTab("list");
     showToast("Torneo creado. Ya eres el primer inscrito.");
   }
-
   function linkPlatform() {
     if (!tagInput.trim()) { showToast("Escribe tu gamertag o usuario"); return; }
     persistProfile({ ...profile, platforms: { ...profile.platforms, [linkModal]: { connected: true, tag: tagInput.trim() } } });
@@ -450,10 +443,9 @@ export default function App() {
     setTagInput("");
   }
 
-  function unlinkPlatform(key) {
+  unction unlinkPlatform(key) {
     persistProfile({ ...profile, platforms: { ...profile.platforms, [key]: { connected: false, tag: "" } } });
   }
-
   function confirmPayment() {
     const t = selected;
     if (profile.balance < t.fee) { showToast("Saldo insuficiente"); return; }
@@ -483,17 +475,13 @@ export default function App() {
       setStack(stack?.returnTo || null);
     }, 1300);
   }
-
   const filteredTournaments = tournaments.filter((t) =>
     filterSize === "all" ? true : String(t.size) === filterSize
   );
-
   /* ---------- SCREENS ---------- */
-
   // NUEVA PANTALLA DE REGISTRO / KYC
   function RegistrationScreen({ onComplete }) {
     const [platform, setPlatform] = useState(null);
-
     return (
       <div className="flex-1 overflow-y-auto scrollbar-none px-4 py-8 flex flex-col items-center">
         {/* Logo Header */}
@@ -506,10 +494,9 @@ export default function App() {
             Apuestas 1v1 y Torneos de FC26 en España y Latinoamérica.
           </p>
         </div>
-
         {/* Formulario Contenedor */}
         <div className="w-full bg-[#0B120D] border border-[#1C2B1E] rounded-xl p-4 space-y-4">
-          
+         
           {/* Sección 1: Cuenta */}
           <div>
             <div className="font-display text-[10px] uppercase tracking-wider text-[#39FF6A] mb-3">Registrar nueva cuenta (KYC Requerido)</div>
@@ -524,15 +511,12 @@ export default function App() {
               </div>
             </div>
           </div>
-
           <div className="h-px bg-[#1C2B1E] my-3" />
-
           {/* Sección 2: EA ID */}
           <div>
             <label className="text-[10px] uppercase text-[#7C9482] font-display mb-1 block">EA ID de Jugador (Consola/PC)</label>
             <input type="text" placeholder="Ej: FC_KinGamer" className="w-full bg-[#050807] border border-[#1C2B1E] rounded-md px-3 py-2 text-[13px] text-[#EAFBE9] outline-none focus:border-[#39FF6A] transition-colors" />
           </div>
-
           {/* Sección 3: Sincronización */}
           <div className="border border-[#1C2B1E] rounded-md p-3 bg-[#050807]">
             <div className="flex items-center gap-1.5 text-[10px] uppercase text-[#7C9482] font-display mb-3">
@@ -551,9 +535,7 @@ export default function App() {
               ))}
             </div>
           </div>
-
           <div className="h-px bg-[#1C2B1E] my-3" />
-
           {/* Sección 4: KYC / Identidad */}
           <div>
             <div className="flex items-center gap-1.5 text-[10px] uppercase text-[#FFC93C] font-display mb-3">
@@ -586,7 +568,6 @@ export default function App() {
               </div>
             </div>
           </div>
-
           <button 
             onClick={onComplete} 
             className="w-full font-display uppercase tracking-wider text-[13px] bg-[#39FF6A] text-[#050807] font-bold rounded-md py-3.5 mt-2 transition-transform active:scale-[0.98]"
@@ -611,7 +592,6 @@ export default function App() {
         <div className="px-4">
           <h1 className="font-display text-[24px] text-[#EAFBE9] font-semibold mb-1">Torneos disponibles</h1>
           <p className="text-[13px] text-[#7C9482] mb-4">FC26 · Eliminación simple</p>
-
           <div className="flex gap-2 overflow-x-auto pb-3 mb-1 -mx-4 px-4 scrollbar-none">
             {["all", "2", "4", "8", "16", "32"].map((s) => (
               <Chip key={s} active={filterSize === s} onClick={() => setFilterSize(s)}>
@@ -620,7 +600,6 @@ export default function App() {
             ))}
           </div>
         </div>
-
         <div className="px-4 pb-6 space-y-3">
           {filteredTournaments.map((t) => (
             <TournamentCard key={t.id} t={t} onOpen={() => openTournament(t.id)} />
@@ -640,13 +619,11 @@ export default function App() {
         <Header onBack={goBack} title={t.size === 2 ? "1 vs 1" : `${t.size} jugadores`} />
         <div className="px-4 pb-6">
           <h1 className="font-display text-[22px] text-[#EAFBE9] font-semibold mb-3">{t.name}</h1>
-
           <div className="grid grid-cols-3 gap-2 mb-4">
             <Stat label="Cuota" value={`${coinsFmt(t.fee)} RC`} />
             <Stat label="Pool total" value={`${coinsFmt(poolOf(t))} RC`} />
             <Stat label="Premio" value={`${coinsFmt(prizeOf(t))} RC`} accent />
           </div>
-
           <div className="bg-[#0B120D] border border-[#1C2B1E] rounded-xl p-3 mb-5 flex items-center gap-2 text-[12px] text-[#7C9482]">
             <ShieldCheck size={14} className="text-[#39FF6A] shrink-0" />
             Comisión de la plataforma: 5% ({coinsFmt(commissionOf(t))} RC), ya descontada del premio mostrado.
@@ -664,7 +641,6 @@ export default function App() {
               Torneo completo
             </div>
           )}
-
           <h2 className="font-display text-[15px] text-[#EAFBE9] uppercase tracking-wide mb-3">Bracket</h2>
           <div className="space-y-5">
             {t.bracket.map((round) => (
@@ -686,7 +662,6 @@ export default function App() {
       </>
     );
   }
-
   function Stat({ label, value, accent }) {
     return (
       <div className="bg-[#0B120D] border border-[#1C2B1E] rounded-lg py-2.5 px-2 text-center">
@@ -695,7 +670,6 @@ export default function App() {
       </div>
     );
   }
-
   function PaymentScreen() {
     const t = selected;
     const enough = profile.balance >= t.fee;
@@ -720,7 +694,6 @@ export default function App() {
               </div>
             </div>
           </div>
-
           {enough ? (
             <button
               onClick={confirmPayment}
@@ -744,7 +717,6 @@ export default function App() {
               </button>
             </>
           )}
-
           <p className="text-[11px] text-[#4B5F4E] text-center mt-4 leading-relaxed">
             Maqueta de demostración: no se procesa ningún pago real.
           </p>
@@ -767,7 +739,6 @@ export default function App() {
               <div className="text-[10px] text-[#4B5F4E] font-mono">≈ {eurosFmt(profile.balance)}</div>
             </div>
           </div>
-
           <div className="text-[12px] uppercase tracking-wide text-[#7C9482] font-display mb-2">Elige un paquete</div>
           <div className="space-y-2 mb-5">
             {COIN_PACKAGES.map((p) => {
@@ -793,7 +764,6 @@ export default function App() {
               );
             })}
           </div>
-
           <div className="text-[12px] uppercase tracking-wide text-[#7C9482] font-display mb-2">Método de pago</div>
           <div className="grid grid-cols-2 gap-2 mb-5">
             <button
@@ -811,7 +781,6 @@ export default function App() {
               <span className="font-display text-[12px] text-[#EAFBE9]">Tarjeta</span>
             </button>
           </div>
-
           {payMethod === "card" && (
             <div className="space-y-2 mb-5">
               <input placeholder="Número de tarjeta" className="w-full bg-[#0B120D] border border-[#1C2B1E] rounded-lg px-3 py-2.5 text-[13px] text-[#EAFBE9] placeholder:text-[#4B5F4E] outline-none focus:border-[#39FF6A]" />
@@ -821,13 +790,11 @@ export default function App() {
               </div>
             </div>
           )}
-
           {payMethod === "paypal" && (
             <div className="bg-[#0B120D] border border-[#1C2B1E] rounded-lg px-3 py-3 mb-5 text-[12px] text-[#7C9482]">
               Se te redirigirá a PayPal para confirmar el pago de forma segura.
             </div>
           )}
-
           <button
             onClick={confirmBuyCoins}
             disabled={buying}
@@ -836,7 +803,6 @@ export default function App() {
             {buying ? <Loader2 size={16} className="animate-spin" /> : <Coins size={16} />}
             {buying ? "Procesando…" : `Comprar ${coinsFmt(total)} RC · ${pack.price.toFixed(2)}€`}
           </button>
-
           <p className="text-[11px] text-[#4B5F4E] text-center mt-4 leading-relaxed">
             Maqueta de demostración: no se procesa ningún pago real.
           </p>
@@ -844,7 +810,6 @@ export default function App() {
       </>
     );
   }
-
   function SuccessScreen() {
     const t = selected;
     return (
@@ -865,7 +830,6 @@ export default function App() {
       </div>
     );
   }
-
   function CreateScreen() {
     const feeEuro = Number(form.feeEuro) || 0;
     const fee = Math.round(feeEuro * RC_PER_EURO);
@@ -884,7 +848,6 @@ export default function App() {
             placeholder="Ej. Copa de los Viernes"
             className="w-full bg-[#0B120D] border border-[#1C2B1E] rounded-lg px-3 py-2.5 text-[13px] text-[#EAFBE9] placeholder:text-[#4B5F4E] outline-none focus:border-[#39FF6A] mb-4"
           />
-
           <label className="block text-[11px] uppercase tracking-wide text-[#7C9482] font-display mb-1.5">Tamaño</label>
           <div className="flex gap-2 mb-4">
             {[2, 4, 8, 16, 32].map((s) => (
@@ -897,7 +860,6 @@ export default function App() {
               </button>
             ))}
           </div>
-
           <label className="block text-[11px] uppercase tracking-wide text-[#7C9482] font-display mb-1.5">Cuota de entrada por jugador</label>
           <div className="relative mb-1.5">
             <input
@@ -913,7 +875,6 @@ export default function App() {
           <div className={`text-[11px] mb-5 ${belowMin ? "text-[#FF3B4E]" : "text-[#4B5F4E]"}`}>
             {belowMin ? "La cuota mínima es 2€." : `Cuota mínima 2€ · equivale a ${coinsFmt(fee)} RC`}
           </div>
-
           <div className="bg-[#0B120D] border border-[#1C2B1E] rounded-xl p-4 mb-6">
             <div className="font-display text-[12px] uppercase tracking-wide text-[#7C9482] mb-2.5">Resumen</div>
             <SummaryRow label="Cuota por jugador" value={`${eurosFmt(fee)} · ${coinsFmt(fee)} RC`} />
@@ -922,7 +883,6 @@ export default function App() {
             <div className="h-px bg-[#1C2B1E] my-2" />
             <SummaryRow label="Premio para el ganador" value={`${coinsFmt(prize || 0)} RC`} accent />
           </div>
-
           <button
             onClick={createTournament}
             disabled={belowMin}
@@ -934,7 +894,6 @@ export default function App() {
       </>
     );
   }
-
   function SummaryRow({ label, value, accent }) {
     return (
       <div className="flex justify-between text-[13px] mb-1">
@@ -943,7 +902,6 @@ export default function App() {
       </div>
     );
   }
-
   function ProfileScreen() {
     const winRate = profile.stats.played ? Math.round((profile.stats.won / profile.stats.played) * 100) : 0;
     return (
@@ -957,13 +915,11 @@ export default function App() {
               <div className="text-[12px] text-[#7C9482]">Verificado · +18</div>
             </div>
           </div>
-
           <div className="grid grid-cols-3 gap-2 mb-5">
             <Stat label="Jugados" value={String(profile.stats.played)} />
             <Stat label="Ganados" value={String(profile.stats.won)} accent />
             <Stat label="Win rate" value={`${winRate}%`} />
           </div>
-
           <div className="bg-[#0B120D] border border-[#1C2B1E] rounded-xl p-4 mb-5">
             <div className="flex items-center justify-between mb-3">
               <span className="font-display text-[12px] uppercase tracking-wide text-[#7C9482]">Saldo disponible</span>
@@ -986,7 +942,6 @@ export default function App() {
               </button>
             </div>
           </div>
-
           <div className="font-display text-[12px] uppercase tracking-wide text-[#7C9482] mb-2 flex items-center gap-1.5">
             Plataformas conectadas
           </div>
@@ -1033,7 +988,6 @@ export default function App() {
               <HistoryRow key={h.id} name={h.name} result={h.result} amount={h.amount} />
             ))}
           </div>
-
           <button
             onClick={resetData}
             className="w-full flex items-center justify-center gap-1.5 text-[11px] font-display uppercase tracking-wide text-[#4B5F4E]"
@@ -1044,7 +998,6 @@ export default function App() {
       </>
     );
   }
-
   function HistoryRow({ name, result, amount }) {
     const tone = result === "win" ? "brand" : result === "loss" ? "danger" : "default";
     const label = result === "win" ? "Ganado" : result === "loss" ? "Perdido" : "En curso";
@@ -1062,7 +1015,6 @@ export default function App() {
   }
 
   /* ---------- RENDER ---------- */
-
   if (!loaded) {
     return (
       <div className="w-full flex items-center justify-center py-6 bg-[#030503]">
@@ -1076,7 +1028,6 @@ export default function App() {
       </div>
     );
   }
-
   // Lógica para mostrar la pantalla de registro si no está autenticado
   let content;
   if (!isAuthenticated) {
@@ -1105,9 +1056,7 @@ export default function App() {
       >
         {/* notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#030503] rounded-b-2xl z-20" />
-
         <div className="flex-1 overflow-y-auto scrollbar-none pt-4">{content}</div>
-
         {showBottomNav && (
           <div className="flex items-center justify-around border-t border-[#1C2B1E] bg-[#050807] py-2.5 px-2">
             <NavBtn icon={Trophy} label="Torneos" active={tab === "list"} onClick={() => setTab("list")} />
@@ -1115,13 +1064,11 @@ export default function App() {
             <NavBtn icon={User} label="Perfil" active={tab === "profile"} onClick={() => setTab("profile")} />
           </div>
         )}
-
         {toast && (
           <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-[#1C2B1E] text-[#EAFBE9] text-[12px] px-4 py-2 rounded-full shadow-lg max-w-[90%] text-center z-30">
             {toast}
           </div>
         )}
-
         {linkModal && (
           <div className="absolute inset-0 bg-black/60 flex items-end z-40">
             <div className="w-full bg-[#0B120D] border-t border-[#1C2B1E] rounded-t-2xl p-5">
@@ -1151,7 +1098,6 @@ export default function App() {
             </div>
           </div>
         )}
-
         {resultModal && (
           <div className="absolute inset-0 bg-black/60 flex items-end z-40">
             <div className="w-full bg-[#0B120D] border-t border-[#1C2B1E] rounded-t-2xl p-5">
@@ -1194,5 +1140,3 @@ function NavBtn({ icon: Icon, label, active, onClick }) {
       <Icon size={20} className={active ? "text-[#39FF6A]" : "text-[#4B5F4E]"} />
       <span className={`font-display text-[10px] uppercase tracking-wide ${active ? "text-[#39FF6A]" : "text-[#4B5F4E]"}`}>{label}</span>
     </button>
-  );
-}
