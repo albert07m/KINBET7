@@ -127,126 +127,6 @@ const FONT_STYLE = `
 `;
 
 /* ---------------------------------------------------------
-   PANTALLA DE AUTENTICACIÓN (NUEVA ESTRUCTURA EXACTA DE TU IMAGEN)
---------------------------------------------------------- */
-
-function AuthScreen({ onLogin }) {
-  return (
-    <div className="w-full flex items-center justify-center py-6 bg-[#030503] min-h-screen">
-      <style>{FONT_STYLE}</style>
-      <div className="font-body relative w-[380px] h-[760px] bg-[#050807] rounded-[36px] border border-[#1C2B1E] shadow-2xl overflow-y-auto scrollbar-none flex flex-col p-6">
-        
-        {/* Header / Logo */}
-        <div className="flex flex-col items-center mt-6 mb-6 text-center">
-          <div className="w-14 h-14 rounded-xl border border-[#39FF6A] flex items-center justify-center mb-4 bg-[#050807]">
-            <span className="font-display text-[22px] text-white font-bold">K</span>
-          </div>
-          <h1 className="font-display text-[22px] text-white font-bold tracking-wide">
-            ÚNETE A KIN<span className="text-[#39FF6A]">BET</span>
-          </h1>
-          <p className="text-[#7C9482] text-[12px] mt-2 leading-relaxed px-4">
-            Apuestas 1v1 y Torneos de FC26 en España y Latinoamérica.
-          </p>
-        </div>
-
-        {/* Card Formulario */}
-        <div className="bg-[#0B120D] border border-[#1C2B1E] rounded-xl p-5 mb-6">
-          <h2 className="font-display text-[#39FF6A] text-[11px] uppercase tracking-wider mb-5">
-            Registrar Nueva Cuenta (KYC Requerido)
-          </h2>
-
-          <div className="space-y-4">
-            {/* Inputs Básicos */}
-            <div>
-              <label className="block text-[10px] text-[#7C9482] font-display uppercase tracking-wider mb-1.5">Correo Electrónico</label>
-              <input placeholder="nombre@correo.com" className="w-full bg-[#050807] border border-[#1C2B1E] rounded-lg px-3 py-2.5 text-[13px] text-[#EAFBE9] placeholder:text-[#4B5F4E] outline-none focus:border-[#39FF6A] transition-colors" />
-            </div>
-            
-            <div>
-              <label className="block text-[10px] text-[#7C9482] font-display uppercase tracking-wider mb-1.5">Contraseña</label>
-              <input type="password" placeholder="••••••••" className="w-full bg-[#050807] border border-[#1C2B1E] rounded-lg px-3 py-2.5 text-[13px] text-[#EAFBE9] placeholder:text-[#4B5F4E] outline-none focus:border-[#39FF6A] transition-colors" />
-            </div>
-
-            <div>
-              <label className="block text-[10px] text-[#7C9482] font-display uppercase tracking-wider mb-1.5">EA ID DE JUGADOR (CONSOLA/PC)</label>
-              <input placeholder="Ej: FC_KinGamer" className="w-full bg-[#050807] border border-[#1C2B1E] rounded-lg px-3 py-2.5 text-[13px] text-[#EAFBE9] placeholder:text-[#4B5F4E] outline-none focus:border-[#39FF6A] transition-colors" />
-            </div>
-
-            {/* Sincronización de Consola */}
-            <div className="bg-[#050807] border border-[#1C2B1E] rounded-lg p-3">
-              <div className="flex items-center gap-1.5 mb-2.5">
-                <Link2 size={12} className="text-[#39FF6A]" />
-                <span className="text-[9px] text-[#7C9482] font-display uppercase tracking-wider">Sincroniza tu consola de origen</span>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                <button className="bg-[#003087]/20 border border-[#003087]/40 rounded-lg py-2 flex flex-col items-center justify-center gap-1.5 hover:bg-[#003087]/30 transition-colors">
-                  <Gamepad2 size={16} className="text-[#3b82f6]" />
-                  <span className="text-[9px] text-white font-display">PSN</span>
-                </button>
-                <button className="bg-[#107C10]/20 border border-[#107C10]/40 rounded-lg py-2 flex flex-col items-center justify-center gap-1.5 hover:bg-[#107C10]/30 transition-colors">
-                  <Gamepad2 size={16} className="text-[#22c55e]" />
-                  <span className="text-[9px] text-white font-display">Xbox Live</span>
-                </button>
-                <button className="bg-[#FF4700]/20 border border-[#FF4700]/40 rounded-lg py-2 flex flex-col items-center justify-center gap-1.5 hover:bg-[#FF4700]/30 transition-colors">
-                  <Monitor size={16} className="text-[#f97316]" />
-                  <span className="text-[9px] text-white font-display">EA App</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Verificación KYC */}
-            <div className="pt-2 border-t border-[#1C2B1E]">
-              <div className="flex items-center gap-1.5 mb-2.5">
-                <ShieldCheck size={12} className="text-[#FFC93C]" />
-                <span className="text-[9px] text-[#FFC93C] font-display uppercase tracking-wider">Verificación de identidad obligatoria</span>
-              </div>
-              <div className="mb-3">
-                <label className="block text-[10px] text-[#7C9482] font-display uppercase tracking-wider mb-1.5">País / Región de Origen</label>
-                <select className="w-full bg-[#050807] border border-[#1C2B1E] rounded-lg px-3 py-2.5 text-[13px] text-[#EAFBE9] outline-none focus:border-[#39FF6A] appearance-none">
-                  <option>España</option>
-                  <option>Colombia</option>
-                  <option>México</option>
-                  <option>Argentina</option>
-                </select>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[10px] text-[#7C9482] font-display uppercase tracking-wider mb-1.5">Tipo Documento</label>
-                  <select className="w-full bg-[#050807] border border-[#1C2B1E] rounded-lg px-2 py-2.5 text-[13px] text-[#EAFBE9] outline-none focus:border-[#39FF6A] appearance-none">
-                    <option>DNI (España)</option>
-                    <option>NIE</option>
-                    <option>Pasaporte</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-[10px] text-[#7C9482] font-display uppercase tracking-wider mb-1.5">Nº de Documento</label>
-                  <input placeholder="Ej: 12345678Z" className="w-full bg-[#050807] border border-[#1C2B1E] rounded-lg px-3 py-2.5 text-[13px] text-[#EAFBE9] placeholder:text-[#4B5F4E] outline-none focus:border-[#39FF6A] transition-colors" />
-                </div>
-              </div>
-            </div>
-
-            {/* Botón de Submit Principal */}
-            <button 
-              onClick={onLogin} 
-              className="w-full font-display text-[14px] font-bold uppercase tracking-wide bg-[#39FF6A] text-[#050807] rounded-lg py-3.5 mt-2 hover:bg-[#2fe85b] active:scale-[0.98] transition-all"
-            >
-              VERIFICAR Y EMPEZAR
-            </button>
-
-            {/* Link Footer */}
-            <div className="text-center mt-3">
-              <button className="text-[11px] text-[#7C9482] underline hover:text-[#EAFBE9] transition-colors">
-                ¿Ya tienes cuenta? Inicia Sesión
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ---------------------------------------------------------
    SMALL UI ATOMS
 --------------------------------------------------------- */
 
@@ -406,7 +286,7 @@ function Header({ title, onBack, balance }) {
           <button onClick={onBack} className="p-1 -ml-1 text-[#EAFBE9]"><ChevronLeft size={22} /></button>
         ) : (
           <div className="flex items-baseline gap-1.5">
-            <span className="font-display text-[20px] font-bold tracking-tight text-[#EAFBE9]">KINBET</span>
+            <span className="font-display text-[20px] font-bold tracking-tight text-[#EAFBE9]">EKAINBET</span>
             <span className="w-1.5 h-1.5 rounded-full bg-[#39FF6A] mb-1" />
           </div>
         )}
@@ -430,7 +310,6 @@ export default function App() {
   const [tournaments, setTournaments] = useState(INITIAL_TOURNAMENTS);
   const [profile, setProfile] = useState(DEFAULT_PROFILE);
   const [loaded, setLoaded] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // NUEVO ESTADO PARA LOGIN
 
   const [tab, setTab] = useState("list");
   const [stack, setStack] = useState(null); // {screen:'detail'|'payment'|'success'|'buyCoins', id, returnTo}
@@ -1074,7 +953,7 @@ export default function App() {
 
   if (!loaded) {
     return (
-      <div className="w-full flex items-center justify-center py-6 bg-[#030503] min-h-screen">
+      <div className="w-full flex items-center justify-center py-6 bg-[#030503]">
         <style>{FONT_STYLE}</style>
         <div className="font-body relative w-[380px] h-[760px] bg-[#050807] rounded-[36px] border border-[#1C2B1E] shadow-2xl overflow-hidden flex items-center justify-center">
           <div className="flex flex-col items-center gap-3">
@@ -1084,11 +963,6 @@ export default function App() {
         </div>
       </div>
     );
-  }
-
-  // SI NO ESTÁ LOGUEADO, MOSTRAR LA PANTALLA DE LA IMAGEN
-  if (!isAuthenticated) {
-    return <AuthScreen onLogin={() => setIsAuthenticated(true)} />;
   }
 
   let content;
@@ -1103,7 +977,7 @@ export default function App() {
   const showBottomNav = !stack;
 
   return (
-    <div className="w-full flex items-center justify-center py-6 bg-[#030503] min-h-screen">
+    <div className="w-full flex items-center justify-center py-6 bg-[#030503]">
       <style>{FONT_STYLE}</style>
       <div
         className="font-body relative w-[380px] h-[760px] bg-[#050807] rounded-[36px] border border-[#1C2B1E] shadow-2xl overflow-hidden flex flex-col"
