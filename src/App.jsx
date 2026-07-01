@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
+import LoginForm from "./components/LoginForm"; // <--- Añade esta línea aquí
+/* ---------------------------------------------------------
+   DATA HELPERS
+--------------------------------------------------------- */
+import React, { useState, useEffect } from "react";
+import LoginForm from "./components/LoginForm";
 import {
   Trophy, Users, Plus, User, ChevronLeft, CreditCard, Wallet,
   CheckCircle2, Clock, ShieldCheck, X, AlertCircle, Lock,
   Loader2, Gamepad2, Monitor, Link2, Check, Coins, RefreshCw
 } from "lucide-react";
-
-/* ---------------------------------------------------------
-   DATA HELPERS
---------------------------------------------------------- */
-
 const NAME_POOL = [
   "CR_Pro99", "ElMago10", "Nano_FC", "Reus_King", "ManoDeDios",
   "Pichichi22", "ZonaMixta", "Galactico7", "ElNueve", "Capitan_K",
@@ -1081,7 +1082,7 @@ export default function App() {
   // Lógica para mostrar la pantalla de registro si no está autenticado
   let content;
   if (!isAuthenticated) {
-    content = <RegistrationScreen onComplete={() => setIsAuthenticated(true)} />;
+    content = <LoginForm onComplete={() => setIsAuthenticated(true)} />;
   } else if (stack?.screen === "detail") {
     content = <DetailScreen />;
   } else if (stack?.screen === "payment") {
@@ -1096,6 +1097,7 @@ export default function App() {
     content = <CreateScreen />;
   } else if (tab === "profile") {
     content = <ProfileScreen />;
+  }
   }
 
   const showBottomNav = isAuthenticated && !stack;
