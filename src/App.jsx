@@ -286,7 +286,7 @@ function Header({ title, onBack, balance }) {
           <button onClick={onBack} className="p-1 -ml-1 text-[#EAFBE9]"><ChevronLeft size={22} /></button>
         ) : (
           <div className="flex items-baseline gap-1.5">
-            <span className="font-display text-[20px] font-bold tracking-tight text-[#EAFBE9]">EKAINBET</span>
+            <span className="font-display text-[20px] font-bold tracking-tight text-[#EAFBE9]">KINBET</span>
             <span className="w-1.5 h-1.5 rounded-full bg-[#39FF6A] mb-1" />
           </div>
         )}
@@ -307,26 +307,25 @@ function Header({ title, onBack, balance }) {
 --------------------------------------------------------- */
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Nuevo estado para controlar el inicio
   const [tournaments, setTournaments] = useState(INITIAL_TOURNAMENTS);
   const [profile, setProfile] = useState(DEFAULT_PROFILE);
   const [loaded, setLoaded] = useState(false);
 
   const [tab, setTab] = useState("list");
-  const [stack, setStack] = useState(null); // {screen:'detail'|'payment'|'success'|'buyCoins', id, returnTo}
+  const [stack, setStack] = useState(null); 
   const [filterSize, setFilterSize] = useState("all");
-  const [resultModal, setResultModal] = useState(null); // {tid, mid}
+  const [resultModal, setResultModal] = useState(null); 
   const [scoreInputs, setScoreInputs] = useState({ a: "", b: "" });
   const [toast, setToast] = useState(null);
   const [paying, setPaying] = useState(false);
-  const [linkModal, setLinkModal] = useState(null); // 'ps5' | 'xbox' | 'pc'
+  const [linkModal, setLinkModal] = useState(null); 
   const [tagInput, setTagInput] = useState("");
 
-  // buy coins state
   const [selectedPackage, setSelectedPackage] = useState("p2");
   const [payMethod, setPayMethod] = useState("paypal");
   const [buying, setBuying] = useState(false);
 
-  // create form state
   const [form, setForm] = useState({ name: "", size: 8, feeEuro: 2 });
 
   /* ---------- PERSISTENCE ---------- */
@@ -491,6 +490,120 @@ export default function App() {
   );
 
   /* ---------- SCREENS ---------- */
+
+  // NUEVA PANTALLA DE REGISTRO / KYC
+  function RegistrationScreen({ onComplete }) {
+    const [platform, setPlatform] = useState(null);
+
+    return (
+      <div className="flex-1 overflow-y-auto scrollbar-none px-4 py-8 flex flex-col items-center">
+        {/* Logo Header */}
+        <div className="flex flex-col items-center mb-6 w-full">
+          <div className="w-12 h-12 rounded-xl border border-[#39FF6A] flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(57,255,106,0.15)] bg-[#050807]">
+            <span className="font-display text-[22px] text-[#EAFBE9] font-bold">K</span>
+          </div>
+          <h1 className="font-display text-[20px] text-[#EAFBE9] font-bold tracking-wide">ÚNETE A KINBET</h1>
+          <p className="text-[#7C9482] text-[11px] text-center mt-1">
+            Apuestas 1v1 y Torneos de FC26 en España y Latinoamérica.
+          </p>
+        </div>
+
+        {/* Formulario Contenedor */}
+        <div className="w-full bg-[#0B120D] border border-[#1C2B1E] rounded-xl p-4 space-y-4">
+          
+          {/* Sección 1: Cuenta */}
+          <div>
+            <div className="font-display text-[10px] uppercase tracking-wider text-[#39FF6A] mb-3">Registrar nueva cuenta (KYC Requerido)</div>
+            <div className="space-y-3">
+              <div>
+                <label className="text-[10px] uppercase text-[#7C9482] font-display mb-1 block">Correo Electrónico</label>
+                <input type="email" placeholder="nombre@correo.com" className="w-full bg-[#050807] border border-[#1C2B1E] rounded-md px-3 py-2 text-[13px] text-[#EAFBE9] outline-none focus:border-[#39FF6A] transition-colors" />
+              </div>
+              <div>
+                <label className="text-[10px] uppercase text-[#7C9482] font-display mb-1 block">Contraseña</label>
+                <input type="password" placeholder="••••••••" className="w-full bg-[#050807] border border-[#1C2B1E] rounded-md px-3 py-2 text-[13px] text-[#EAFBE9] outline-none focus:border-[#39FF6A] transition-colors" />
+              </div>
+            </div>
+          </div>
+
+          <div className="h-px bg-[#1C2B1E] my-3" />
+
+          {/* Sección 2: EA ID */}
+          <div>
+            <label className="text-[10px] uppercase text-[#7C9482] font-display mb-1 block">EA ID de Jugador (Consola/PC)</label>
+            <input type="text" placeholder="Ej: FC_KinGamer" className="w-full bg-[#050807] border border-[#1C2B1E] rounded-md px-3 py-2 text-[13px] text-[#EAFBE9] outline-none focus:border-[#39FF6A] transition-colors" />
+          </div>
+
+          {/* Sección 3: Sincronización */}
+          <div className="border border-[#1C2B1E] rounded-md p-3 bg-[#050807]">
+            <div className="flex items-center gap-1.5 text-[10px] uppercase text-[#7C9482] font-display mb-3">
+              <Link2 size={12} className="text-[#39FF6A]"/> Sincroniza tu consola de origen
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {['PSN', 'Xbox Live', 'EA App'].map(p => (
+                <button 
+                  key={p} 
+                  onClick={() => setPlatform(p)} 
+                  className={`py-2 flex flex-col items-center justify-center rounded-md border transition-colors ${platform === p ? 'border-[#39FF6A] bg-[#39FF6A]/10 text-[#39FF6A]' : 'border-[#1C2B1E] bg-[#0B120D] text-[#7C9482]'}`}
+                >
+                  <Gamepad2 size={16} className="mb-1" />
+                  <span className="text-[9px] font-display tracking-wide">{p}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="h-px bg-[#1C2B1E] my-3" />
+
+          {/* Sección 4: KYC / Identidad */}
+          <div>
+            <div className="flex items-center gap-1.5 text-[10px] uppercase text-[#FFC93C] font-display mb-3">
+              <ShieldCheck size={13} /> Verificación de identidad obligatoria
+            </div>
+            <div className="space-y-3">
+              <div>
+                <label className="text-[10px] uppercase text-[#7C9482] font-display mb-1 block">País / Región de origen</label>
+                <select className="w-full bg-[#050807] border border-[#1C2B1E] rounded-md px-3 py-2 text-[13px] text-[#EAFBE9] outline-none focus:border-[#39FF6A] appearance-none">
+                  <option>España 🇪🇸</option>
+                  <option>México 🇲🇽</option>
+                  <option>Argentina 🇦🇷</option>
+                  <option>Colombia 🇨🇴</option>
+                  <option>Chile 🇨🇱</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[10px] uppercase text-[#7C9482] font-display mb-1 block">Tipo Documento</label>
+                  <select className="w-full bg-[#050807] border border-[#1C2B1E] rounded-md px-3 py-2 text-[13px] text-[#EAFBE9] outline-none focus:border-[#39FF6A] appearance-none">
+                    <option>DNI</option>
+                    <option>Pasaporte</option>
+                    <option>NIE</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase text-[#7C9482] font-display mb-1 block">Nº de Documento</label>
+                  <input type="text" placeholder="Ej: 12345678Z" className="w-full bg-[#050807] border border-[#1C2B1E] rounded-md px-3 py-2 text-[13px] text-[#EAFBE9] outline-none focus:border-[#39FF6A]" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button 
+            onClick={onComplete} 
+            className="w-full font-display uppercase tracking-wider text-[13px] bg-[#39FF6A] text-[#050807] font-bold rounded-md py-3.5 mt-2 transition-transform active:scale-[0.98]"
+          >
+            Verificar y Empezar
+          </button>
+
+          <div className="text-center pt-2">
+            <button className="text-[11px] text-[#7C9482] underline font-display hover:text-[#EAFBE9] transition-colors">
+              ¿Ya tienes cuenta? Inicia Sesión
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   function ListScreen() {
     return (
@@ -965,16 +1078,27 @@ export default function App() {
     );
   }
 
+  // Lógica para mostrar la pantalla de registro si no está autenticado
   let content;
-  if (stack?.screen === "detail") content = <DetailScreen />;
-  else if (stack?.screen === "payment") content = <PaymentScreen />;
-  else if (stack?.screen === "buyCoins") content = <BuyCoinsScreen />;
-  else if (stack?.screen === "success") content = <SuccessScreen />;
-  else if (tab === "list") content = <ListScreen />;
-  else if (tab === "create") content = <CreateScreen />;
-  else if (tab === "profile") content = <ProfileScreen />;
+  if (!isAuthenticated) {
+    content = <RegistrationScreen onComplete={() => setIsAuthenticated(true)} />;
+  } else if (stack?.screen === "detail") {
+    content = <DetailScreen />;
+  } else if (stack?.screen === "payment") {
+    content = <PaymentScreen />;
+  } else if (stack?.screen === "buyCoins") {
+    content = <BuyCoinsScreen />;
+  } else if (stack?.screen === "success") {
+    content = <SuccessScreen />;
+  } else if (tab === "list") {
+    content = <ListScreen />;
+  } else if (tab === "create") {
+    content = <CreateScreen />;
+  } else if (tab === "profile") {
+    content = <ProfileScreen />;
+  }
 
-  const showBottomNav = !stack;
+  const showBottomNav = isAuthenticated && !stack;
 
   return (
     <div className="w-full flex items-center justify-center py-6 bg-[#030503]">
@@ -986,7 +1110,7 @@ export default function App() {
         {/* notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#030503] rounded-b-2xl z-20" />
 
-        <div className="flex-1 overflow-y-auto scrollbar-none">{content}</div>
+        <div className="flex-1 overflow-y-auto scrollbar-none pt-4">{content}</div>
 
         {showBottomNav && (
           <div className="flex items-center justify-around border-t border-[#1C2B1E] bg-[#050807] py-2.5 px-2">
